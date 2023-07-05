@@ -16,7 +16,7 @@ namespace DataAccess
                 using (SqlConnection sqlConnection = handlerConnection.GetConnection())
                 {
                     SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                    sqlCommand.CommandText = "CrearProducto";
+                    sqlCommand.CommandText = "usp_CrearProducto";
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.AddWithValue("@Nombre", producto.Name);
                     
@@ -77,7 +77,7 @@ namespace DataAccess
             try
             {
                 List<Producto> productos = new List<Producto>();
-                string sqlCommand = "SELECT Id, Nombre FROM Producto WHERE = '" + id + "' ";
+                string sqlCommand = "SELECT Id, Nombre FROM Producto WHERE Id = '" + id + "' ";
 
                 using (SqlConnection connection = handlerConnection.GetConnection())
                 {
@@ -143,5 +143,33 @@ namespace DataAccess
             }
 
         }
+
+        public bool UpdateProducto(int idProducto, Producto producto)
+        {
+            bool estaActualizado = false;
+            try
+            {
+                using (SqlConnection connection = handlerConnection.GetConnection())
+                {
+                    SqlCommand sqlCommand = connection.CreateCommand();
+                    sqlCommand.CommandText = "usp_ActualizarProducto";
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@Id", producto.Id);
+                    sqlCommand.Parameters.AddWithValue("@Nombre", producto.Name);
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+                    if (filasAfectadas > 0) return estaActualizado = true;
+
+                }
+
+                return estaActualizado;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        } 
     }
 }

@@ -14,5 +14,6 @@ namespace BusinessLogic.Services
         public IEnumerable<Producto> GetProducto(int id);
         public IEnumerable<Producto> GetProducto(string id);
         public bool DeleteProduct(int id);
+        public bool UpdateProducto(int idProducto, Producto producto);
     }
 }
