@@ -398,5 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Agreagadas 
-appsettings.json
-appsettings.Development.json
+# appsettings.json
+# appsettings.Development.json
