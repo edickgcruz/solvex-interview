@@ -32,8 +32,6 @@ namespace solvex_interview_api.Controllers
             };
             bool estaGuardado = _productoService.CrearProducto(nuevoProducto);
             if (estaGuardado) return Ok(new { message = "El producto fue guardado correctamente", estaGuardado });
-            //if (estaGuardado) return Created(new { message = "El producto fue guardado correctamente", estaGuardado });
-
 
             return BadRequest(new { message = "El producto no ha sido guardado", estaGuardado });
         }
