@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using solvex_interview_api.DTOs;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace solvex_interview_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductoController : ControllerBase
     {
         private readonly IProductoService _productoService;
@@ -17,6 +19,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, seller, user")]
         public ActionResult<IEnumerable<ProductoOutputDto>> GetAllProducts()
         {
             var producto = _productoService.GetAllProducts().Select(producto => new ProductoOutputDto() { Id = producto.Id, Name = producto.Name });
@@ -24,6 +27,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, seller")]
         public ActionResult Create(ProductoDto productoDto)
         {
             var nuevoProducto = new Producto()
@@ -37,6 +41,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete([FromRoute] int id)
         {
             bool estaEliminado = _productoService.DeleteProduct(id);
@@ -46,6 +51,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin, seller")]
         public ActionResult update([FromRoute] int id, [FromBody] ProductoUpdateDto productoDto)
         {
             var productoEncontrado = _productoService.GetProducto(id);
