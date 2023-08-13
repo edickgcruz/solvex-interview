@@ -1,12 +1,10 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using Entities;
-using BusinessLogic;
-using BusinessLogic.Services;
 
 namespace DataAccess
 {
-    public class ProductoDAL : IProductoService
+    public class ProductoDAL
     {
         HandlerConnection handlerConnection = new HandlerConnection();
         public bool CrearProducto(Producto producto)
@@ -110,7 +108,7 @@ namespace DataAccess
             }
         }
 
-        IEnumerable<Producto> IProductoService.GetProducto(string id)
+        public IEnumerable<Producto> GetProducto(string producto)
         {
             throw new NotImplementedException();
         }

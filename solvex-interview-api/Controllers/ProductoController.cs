@@ -44,6 +44,8 @@ namespace solvex_interview_api.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Delete([FromRoute] int id)
         {
+            // TODO: Debo de buscar el producto por Id antes de enviar a eliminarlo, asi controlo si existe o no desde un inicio
+
             bool estaEliminado = _productoService.DeleteProduct(id);
             if (estaEliminado) return Ok(new { message = "El producto fue eliminado correctamente.", estaElimnado = estaEliminado});
 

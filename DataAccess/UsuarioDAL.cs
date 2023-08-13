@@ -6,12 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
-using BusinessLogic.Services;
-using System.Collections;
 
 namespace DataAccess
 {
-    public class UsuarioDAL : IUsuarioService
+    public class UsuarioDAL
     {
         HandlerConnection handlerConnection = new HandlerConnection();
         public bool CrearUsuario(Usuario newUser)
@@ -57,7 +55,7 @@ namespace DataAccess
                     {
                         while (dataReader.Read())
                         {
-                            users.Add( new Usuario()
+                            users.Add(new Usuario()
                             {
                                 Username = dataReader["Username"].ToString(),
                                 Password = dataReader["Passwd"].ToString(),
