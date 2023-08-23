@@ -18,12 +18,18 @@ namespace solvex_interview_api.Controllers
             _productoService = productoService;
         }
 
-        [HttpGet]
+        [HttpGet("{page}")]
         [Authorize(Roles = "admin, seller, user")]
-        public ActionResult<IEnumerable<ProductoOutputDto>> GetAllProducts()
+        public ActionResult<IEnumerable<ProductoOutputDto>> GetAllProducts(int page)
         {
             var producto = _productoService.GetAllProducts().Select(producto => new ProductoOutputDto() { Id = producto.Id, Name = producto.Name });
-            return Ok(producto);
+
+            var pageResult = 3f;
+            var pageCount = Math.Ceiling(producto.Count() / pageResult);
+
+            var productosPaginados = producto.Skip((page - 1) * (int)pageResult).Take((int)pageResult).ToList();
+
+            return Ok(productosPaginados);
         }
 
         [HttpPost]
