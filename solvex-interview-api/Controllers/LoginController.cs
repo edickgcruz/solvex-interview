@@ -21,6 +21,7 @@ namespace solvex_interview_api.Controllers
             _usuarioService = usuarioService;
             config = configuration;
         }
+
         [HttpPost]
         public IActionResult ValidarLoginUsuario([FromBody] UsuarioLoginDto usuarioLoginDto)
         {

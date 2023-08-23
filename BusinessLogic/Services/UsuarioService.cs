@@ -16,9 +16,29 @@ namespace BusinessLogic.Services
             return _usuarioDAL.CrearUsuario(usuario);
         }
 
+        public IEnumerable<Usuario> GetAllUser()
+        {
+            return _usuarioDAL.GetAllUsers();
+        }
+
         public IEnumerable<Usuario> ValidarUsuarioCredenciales(Usuario usuario)
         {
             return _usuarioDAL.ValidarUsuarioCredenciales(usuario);
+        }
+
+        public IEnumerable<Usuario> GetUsuarioByUsername(string username)
+        {
+            return _usuarioDAL.GetUserByUsername(username);
+        }
+
+        public bool UpdateUsuario(Usuario usuario)
+        {
+            return _usuarioDAL.UpdateUsuario(usuario);
+        }
+
+        public bool DeleteUsuario(string username)
+        {
+            return _usuarioDAL.DeleteUsuario(username);
         }
     }
 }

@@ -49,7 +49,6 @@ namespace DataAccess
                 {
                     SqlCommand cmd = connection.CreateCommand();
                     cmd.CommandText = sqlCommand;
-                    //cmd.CommandType = CommandType.Text;
 
                     using (SqlDataReader dataReader = cmd.ExecuteReader())
                     {
@@ -68,6 +67,136 @@ namespace DataAccess
                 return users;
 
             }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Usuario> GetAllUsers()
+        {
+            try
+            {
+                List<Usuario> users = new List<Usuario>();
+                string sqlCommand = "SELECT * FROM Usuario ";
+
+                using (SqlConnection connection = handlerConnection.GetConnection())
+                {
+                    SqlCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = sqlCommand;
+
+                    using (SqlDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            users.Add(new Usuario()
+                            {
+                                Username = dataReader["Username"].ToString() ?? "",
+                                Password = dataReader["Passwd"].ToString() ?? "",
+                                Rol = dataReader["Rol"].ToString() ?? ""
+                            });
+                        }
+                    }
+                }
+
+                return users;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public IEnumerable<Usuario> GetUserByUsername(string username)
+        {
+            try
+            {
+                List<Usuario> users = new List<Usuario>();
+                string sqlCommand = "SELECT * FROM Usuario WHERE Username = '" + username.Trim() + "' ";
+
+                using (SqlConnection connection = handlerConnection.GetConnection())
+                {
+                    SqlCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = sqlCommand;
+
+                    using (SqlDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            users.Add(new Usuario()
+                            {
+                                Username = dataReader["Username"].ToString() ?? "",
+                                Password = dataReader["Passwd"].ToString() ?? "",
+                                Rol = dataReader["Rol"].ToString() ?? ""
+                            });
+                        }
+                    }
+                }
+
+                return users;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public bool UpdateUsuario(Usuario usuario)
+        {
+            bool estaActualizado = false;
+            try
+            {
+                using (SqlConnection connection = handlerConnection.GetConnection())
+                {
+                    SqlCommand sqlCommand = connection.CreateCommand();
+                    string comandoEjecutarstring = "UPDATE Usuario" +
+                        " SET " +
+                        " Passwd = '"+usuario.Password+"' " +
+                        ",Rol = '"+usuario.Rol+"' " +
+                        "WHERE Username = '"+usuario.Username+"' ";
+
+                    sqlCommand.CommandText = comandoEjecutarstring.Trim();
+                    sqlCommand.CommandType = CommandType.Text;
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+                    if (filasAfectadas > 0) return estaActualizado = true;
+
+                }
+
+                return estaActualizado;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool DeleteUsuario(string username)
+        {
+            bool estaEliminado = false;
+            try
+            {
+                using (SqlConnection connection = handlerConnection.GetConnection())
+                {
+                    SqlCommand sqlCommand = connection.CreateCommand();
+                    string comandoEjecutarstring = "DELETE FROM Usuario WHERE Username = '" + username + "' ";
+
+                    sqlCommand.CommandText = comandoEjecutarstring.Trim();
+                    sqlCommand.CommandType = CommandType.Text;
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+                    if (filasAfectadas > 0) return estaEliminado = true;
+
+                }
+
+                return estaEliminado;
+            }
+
             catch (Exception)
             {
                 throw;

@@ -11,6 +11,9 @@ namespace BusinessLogic.Services
     {
         public bool CrearUsuario(Usuario usuario);
         public IEnumerable<Usuario> ValidarUsuarioCredenciales(Usuario usuario);
-
+        public IEnumerable<Usuario> GetAllUser();
+        public IEnumerable<Usuario> GetUsuarioByUsername(string username);
+        public bool UpdateUsuario(Usuario usuario);
+        public bool DeleteUsuario(string username);
     }
 }
