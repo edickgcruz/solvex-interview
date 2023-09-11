@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using solvex_interview_api.DTOs;
 using Entities;
 using System.Xml;
+using Microsoft.AspNetCore.Authorization;
 
 namespace solvex_interview_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -19,6 +21,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, seller")]
         public IActionResult CrearUsuario([FromBody] UsuarioDto usuario)
         {
             var nuevoUsuario = new Usuario()
@@ -35,6 +38,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpGet("{username}")]
+        [Authorize(Roles = "admin, seller, user")]
         public ActionResult GetUsuarioByUsername(string username)
         {
             var foundUsuario = _usuarioService.GetUsuarioByUsername(username);
@@ -43,6 +47,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, seller, user")]
         public ActionResult<UsuarioDto> GetAllUser()
         {
             IEnumerable<Usuario> usuarios = _usuarioService.GetAllUser();
@@ -61,6 +66,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpPut("{username}")]
+        [Authorize(Roles = "admin, seller")]
         public ActionResult<UsuarioDto> UpdateUsuario([FromBody] UsuarioDto usuario)
         {
             var usuarioExiste = _usuarioService.GetUsuarioByUsername(usuario.Username);
@@ -86,6 +92,7 @@ namespace solvex_interview_api.Controllers
         }
 
         [HttpDelete("{username}")]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteUsuario(string username)
         {
             var usuarioExiste = _usuarioService.GetUsuarioByUsername(username);

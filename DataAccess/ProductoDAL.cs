@@ -168,6 +168,40 @@ namespace DataAccess
             {
                 throw;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Guarda el precio del producto por cada color.
+        /// </summary>
+        /// <param name="idProducto">Id del producto a guardar</param>
+        /// <param name="precioProducto">Una entidad del tipo que contiene las propiedades a guardar del producto</param>
+        /// <returns></returns>
+        private bool GuardarPrecioProducto(int idProducto, PrecioProducto precioProducto)
+        {
+            bool estaGuardado = false;
+
+            try
+            {
+                string comandoEjecutar = "INSERT INTO Precio (IdProducto, Precio, Color) VALUES " +
+                    "('"+ precioProducto.IdProducto +"', '"+ precioProducto.Precio +"', '"+ precioProducto.Color +"')";
+
+                using (SqlConnection connection = handlerConnection.GetConnection())
+                {
+                    SqlCommand sqlCommand = connection.CreateCommand();
+                    sqlCommand.CommandText = comandoEjecutar;
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+                    if (filasAfectadas > 0) return estaGuardado = true;
+
+                }
+
+                return estaGuardado;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }        
     }
 }
